@@ -159,7 +159,7 @@ in
   if num_sets = 0 then generate_table()
   else let
     //
-    val asz2_a = size_of_int(12)
+    val asz2_a = size_of_int (num_sets)
     val asz2_b = size_of_int(3)
     val init2 = array0_make_elt(asz2_b, init)
     val results = array0_make_elt(asz2_a, init2)
