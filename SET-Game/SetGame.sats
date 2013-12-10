@@ -42,6 +42,22 @@ fun is_unique(c: card_t, A: array0 (card_t)): bool
 fun is_set(card_t, card_t, card_t): int
 
 (* ****** ****** *)
+// Functions to print to screen.
+
+// Get Color.
+fun get_color(c: card_t): string
+
+// Get Shape.
+fun get_shape(c: card_t): string
+
+// Get Shade
+fun get_shade(c: card_t): string
+
+// Prints a single card.
+fun print_card(c: card_t): void
+
+
+(* ****** ****** *)
 
 //
 // Here are the functions needed for
