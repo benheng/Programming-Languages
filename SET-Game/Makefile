@@ -9,7 +9,7 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 
-test: SetGame.sats SetGame.dats test.dats
+test: SetGame.sats SetGame.dats player_loop.dats test.dats
 	$(PATSCC) -D_GNU_SOURCE -O2 -DATS_MEMALLOC_LIBC -o $@ $^ -latslib
 cleanall:: ; rm -f test
 
