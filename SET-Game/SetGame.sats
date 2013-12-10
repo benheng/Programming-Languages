@@ -88,19 +88,19 @@ fun generate_table((*void*)): table_t
 //
 
 // Main game loop
-fun player_loop (table_t): void
+fun player_loop (table_t, int, int): void
 
 // Print playing cards
-fun print_cards (): void
+fun print_cards (array0(card_t)): void
 
 // Print results table
-fun print_results (): void
+fun print_results (array0(array0(card_t))): void
 
 // Checks if set is unique
 fun is_unique_set (card_t, card_t, card_t, table_t): bool
 
 // Add sets to results array
-fun add_set (card_t, card_t, card_t, table_t): void
+fun add_set (card_t, card_t, card_t, table_t, int): void
 
 (* ****** ****** *)
 
