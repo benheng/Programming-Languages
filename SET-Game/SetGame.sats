@@ -22,7 +22,7 @@ staload _ = "libats/ML/DATS/array0.dats"
 //        table_t: The table, where the current
 //                 cards are stored.
 //
-typedef card_t = @{ color= int, shape= int, shading= int, number= int, index= int}
+typedef card_t = @{ color= int, shape= int, shading= int, number= int, ind= int}
 typedef table_t = @{ cards= array0(card_t), results= array0(array0(card_t)) }
 
 (* ****** ****** *)
