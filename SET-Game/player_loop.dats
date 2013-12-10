@@ -23,7 +23,7 @@ in
   }
 
   (*
-  else if opt = 3 then let    // 3: input guesses
+  else if opt = 100 then let    // 3: input guesses
       val c1 = // convert (int)c1 into a corresponding card_t
       val c2 = // convert (int)c2 into a corresponding card_t
       val c3 = // convert (int)c3 into a corresponding card_t
