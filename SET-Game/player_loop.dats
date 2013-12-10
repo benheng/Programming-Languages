@@ -19,6 +19,11 @@ extern fun get_user_input(): ptr = "mac#"
 
 staload UN = "prelude/SATS/unsafe.sats"
 staload "./SetGame.sats"
+staload "libats/ML/SATS/basis.sats"
+staload "libats/ML/SATS/array0.sats"
+staload _ = "libats/ML/DATS/array0.dats"
+staload "libc/SATS/stdlib.sats"
+staload "libc/SATS/unistd.sats"
 
 implement player_loop (table, size_of_res, res_found) = let
   val A = get_user_input ()
@@ -29,14 +34,15 @@ implement player_loop (table, size_of_res, res_found) = let
   val c3_int = A[3]
 in
   if opt = 0 then println! ("Exiting game.")
-  else if opt = 1 then {        // 1: print table
-    val () = print_cards (table.cards)
-    val () = player_loop (table, size_of_res, res_found)
-  }
-  else if opt = 2 then {        // 2: print results
-    val () = print_results(table.results)
-    val () = player_loop (table, size_of_res, res_found)
-  }
+  else if opt = 1 then (        // 1: print table
+    print_cards (table.cards)
+    player_loop (table, size_of_res, res_found)
+  )
+  else if opt = 2 then (        // 2: print results
+    print_results(table.results)
+    player_loop (table, size_of_res, res_found)
+  )
+  (*
   else if opt = 100 then let    // 100: input guesses
       val c1 = table.cards[c1_int]
       val c2 = table.cards[c2_int]
@@ -44,7 +50,7 @@ in
     in
       if is_set(c1, c2, c3) then (
         if is_unique_set (c1, c2, c3, table) then (
-          add_set (c1, c2, c3, table)
+          add_set (c1, c2, c3, table, res_found)
           println! ("Set added! Type 'results' to see Results Table.")
           if size_of_res = res_found+1 then (
             print_results (table.results)
@@ -62,7 +68,8 @@ in
         player_loop (table, size_of_res, res_found)
       )
     end
-
+    *)
+    
   else (
     println! ("Invalid Command. Please try again.")
     player_loop (table, size_of_res, res_found)
@@ -113,3 +120,10 @@ implement is_unique set (c1, c2, c3, table) = let
 in
   loop (c1, c2, c3, table, 0, size)
 end // end of [is_unique_set]
+
+implement add_set (c1, c2, c3, table, i) = let
+	val () = table.results[i][0] := c1
+	val () = table.results[i][1] := c2
+	val () = table.results[i][2] := c3
+in
+end // end of [add_set]
