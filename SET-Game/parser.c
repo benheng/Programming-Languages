@@ -10,6 +10,22 @@
 
 int cards[4];
 
+void sort (int numbers[], int count) {
+	int i, j, k, temp;
+	
+	do {
+		j = 0;
+		for (i = 0;i<=count;i++){
+			if (i<=count-2 || i<count-1){
+	                    j = 1;
+	                    temp = numbers[i];
+	                    numbers[i] = numbers[i+1];
+	                    numbers[i+1] = temp;
+	                }
+	            }
+	} while (j == 1);
+}
+
 int* get_user_input () {
 
 	while (1) { // continue to get input until a valid input is parsed
@@ -26,7 +42,7 @@ int* get_user_input () {
 		}
 		
 		// reset array
-		cards[0] = 0; cards[1] = 0; cards[2] = 0; cards[3] = 3;
+		cards[0] = 0; cards[1] = 0; cards[2] = 0; cards[3] = 100;
 		char *token = {0};
 		int i = 0;
 		
@@ -86,5 +102,6 @@ int* get_user_input () {
 	}
 	
 	// get here only after a valid array has been constructed
+	sort(cards, 4);
 	return cards;
 }
