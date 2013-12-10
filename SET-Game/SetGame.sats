@@ -67,4 +67,25 @@ fun generate_table((*void*)): table_t
 
 (* ****** ****** *)
 
+//
+// Game functions
+//
+
+// Main game loop
+fun player_loop (table_t): void
+
+// Print playing cards
+fun print_cards (): void
+
+// Print results table
+fun print_results (): void
+
+// Checks if set is unique
+fun is_unique_set (card_t, card_t, card_t, table_t): bool
+
+// Add sets to results array
+fun add_set (card_t, card_t, card_t, table_t): void
+
+(* ****** ****** *)
+
 (* end of [SetGame.sats] *)
