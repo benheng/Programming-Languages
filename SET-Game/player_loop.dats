@@ -17,44 +17,86 @@
 
 extern fun get_user_input(): ptr = "mac#"
 
+staload UN = "prelude/SATS/unsafe.sats"
 staload "./SetGame.sats"
 
-implement player_loop (table) = let
-  val (c1, c2, c3, opt) = get_user_input ()
+implement player_loop (table, size_of_res, res_found) = let
+  val A = get_user_input ()
+  val A = $UN.cast{arrayref(int, 4)}(A)
+  val c1_int = A[0]
+  val c2_int = A[1]
+  val c3_int = A[2]
+  val c3_int = A[3]
 in
   if opt = 0 then println! ("Exiting game.")
-  else if opt = 1 then {      // 1: print table
-    val () = print_cards (table)
-    val () = player_loop ()
+  else if opt = 1 then {        // 1: print table
+    val () = print_cards (table.cards)
+    val () = player_loop (table, size_of_res, res_found)
   }
-  else if opt = 2 then {      // 2: print results
-    val () = print_results()
-    val () = player_loop ()
+  else if opt = 2 then {        // 2: print results
+    val () = print_results(table.results)
+    val () = player_loop (table, size_of_res, res_found)
   }
-
-  else if opt = 100 then let    // 3: input guesses
-      val c1 = table.cards[c1]
-      val c2 = table.cards[c2]
-      val c3 = table.cards[c3]
+  else if opt = 100 then let    // 100: input guesses
+      val c1 = table.cards[c1_int]
+      val c2 = table.cards[c2_int]
+      val c3 = table.cards[c3_int]
     in
       if is_set(c1, c2, c3) then (
-        if is_unique_set (c1, c2, c3, table) then {
-          val () = add_set (c1, c2, c3, table)
-          val () = println! ("Set added! Type 'results' to see Results Table.")
-        }
-        else println! ("That set already exists!")
+        if is_unique_set (c1, c2, c3, table) then (
+          add_set (c1, c2, c3, table)
+          println! ("Set added! Type 'results' to see Results Table.")
+          if size_of_res = res_found+1 then (
+            print_results (table.results)
+            println! ("Woop woop you win!")
+          )
+          else player_loop (table, size_of_res, res_found+1)
+        )
+        else (
+          println! ("You've already found that set!")
+          player_loop (table, size_of_res, res_found)
+        )
       )
-      else println! ("That's not a valid set!")
-      player_loop ()
+      else (
+        println! ("That's not a valid set!")
+        player_loop (table, size_of_res, res_found)
+      )
     end
 
-  else {
-    val () = println! ("Invalid Command. Please try again.")
-    player_loop ()
-  }
+  else (
+    println! ("Invalid Command. Please try again.")
+    player_loop (table, size_of_res, res_found)
+  )
 end // end of [player_loop]
 
+implement print_cards (A) = let
+  val size = int_of_size ( array0_size {card_t} (A) )
+  fun loop (i: int): void = (
+    if i != size then let
+        val card = A[i]
+      in
+        print_card (card)
+        loop (i+1)
+      end
+    else ()
+  )
+in
+  loop(0)
+end // end of [print_cards]
 
+implement print_results (AA) = let
+  val size = int_of_size ( array0_size {array0(card_t)} (AA) )
+  fun loop (i: int): void = (
+    if i != size then (
+      println! ("=== Set #", i, " ===================================")
+      print_cards (AA[i])
+      loop (i+1)
+    )
+    else ()
+  )
+in
+  loop(0)
+end // end of [print_results]
 
 implement is_unique set (c1, c2, c3, table) = let
   val size = int_of_size ( array0_size {array0(card_t)} (table.results) )
