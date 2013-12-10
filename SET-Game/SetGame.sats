@@ -15,6 +15,8 @@ staload "libats/ML/SATS/array0.sats"
 staload _ = "libats/ML/DATS/array0.dats"
 
 (* ****** ****** *)
+
+//
 // The datatypes that we need for the game:
 //        card_t:  A single card.
 //        table_t: The table, where the current
@@ -24,7 +26,10 @@ typedef card_t = @{ color= int, shape= int, shading= int, number= int, index= in
 typedef table_t = @{ cards= array0(card_t), results= array0(array0(card_t)) }
 
 (* ****** ****** *)
+
+//
 // Some essential functions
+//
 
 // Tests if two cards are the same
 fun is_equal_card(c1: card_t, c2: card_t): bool
@@ -37,9 +42,11 @@ fun is_unique(c: card_t, A: array0 (card_t)): bool
 fun is_set(card_t, card_t, card_t): int
 
 (* ****** ****** *)
-// Here are the functions needed 
-// for generating the table of
-// cards.
+
+//
+// Here are the functions needed for
+// generating the table of cards.
+//
 
 // Generates a random number between 1 and 3
 // to represent a characteristic of a card.
@@ -57,9 +64,6 @@ fun check_sets(cards: array0(card_t)): int
 
 // Generates the table of cards.
 fun generate_table((*void*)): table_t
-
-
-
 
 (* ****** ****** *)
 
