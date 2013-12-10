@@ -1,3 +1,4 @@
+//
 (* ****** THE SET GAME ****** *)
 (*
 // CS520
@@ -97,10 +98,10 @@ fun print_cards (array0(card_t)): void
 fun print_results (array0(array0(card_t))): void
 
 // Checks if set is unique
-fun is_unique_set (card_t, card_t, card_t, table_t): bool
+fun is_unique_set (card_t, card_t, card_t, array0(array0(card_t))): bool
 
 // Add sets to results array
-fun add_set (card_t, card_t, card_t, table_t, int): void
+fun add_set (card_t, card_t, card_t, array0(array0(card_t)), int): void
 
 (* ****** ****** *)
 
