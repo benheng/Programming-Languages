@@ -31,7 +31,7 @@ implement player_loop (table, size_of_res, res_found) = let
   val c1_int = A[0]
   val c2_int = A[1]
   val c3_int = A[2]
-  val c3_int = A[3]
+  val opt = A[3]
 in
   if opt = 0 then println! ("Exiting game.")
   else if opt = 1 then (        // 1: print table
@@ -44,16 +44,18 @@ in
   )
   (*
   else if opt = 100 then let    // 100: input guesses
-      val c1 = table.cards[c1_int]
-      val c2 = table.cards[c2_int]
-      val c3 = table.cards[c3_int]
+  	  val cards = table.cards
+  	  val results = table.results
+      val c1 = cards[c1_int]
+      val c2 = cards[c2_int]
+      val c3 = cards[c3_int]
     in
       if is_set(c1, c2, c3) then (
-        if is_unique_set (c1, c2, c3, table) then (
-          add_set (c1, c2, c3, table, res_found)
+        if is_unique_set (c1, c2, c3, results) then (
+          add_set (c1, c2, c3, results, res_found)
           println! ("Set added! Type 'results' to see Results Table.")
           if size_of_res = res_found+1 then (
-            print_results (table.results)
+            print_results (results)
             println! ("Woop woop you win!")
           )
           else player_loop (table, size_of_res, res_found+1)
@@ -105,25 +107,28 @@ in
   loop(0)
 end // end of [print_results]
 
-implement is_unique set (c1, c2, c3, table) = let
-  val size = int_of_size ( array0_size {array0(card_t)} (table.results) )
-  fun loop (c1: card_t, c2: card_t, c3: card_t, A: array0 (array0 (card_t)), i: int, s: int): bool = (
+implement is_unique_set (c1, c2, c3, AA) = let
+  val size = int_of_size ( array0_size {array0(card_t)} (AA) )
+  fun loop (c1: card_t, c2: card_t, c3: card_t, AA2: array0 (array0 (card_t)), i: int, s: int): bool = (
     if i = size then true
     else let
-      val rc1 = table.results[i][0]
-      val rc2 = table.results[i][1]
-      val rc3 = table.results[i][2]
+      val results = table.results
+      val rr = results[i]
+      val rc1 = rr[0]
+      val rc2 = rr[1]
+      val rc3 = rr[2]
     in
-      if (c1 = rc1 && c2 = rc2 && c3 = rc3) then false else loop (c1, c2, c3, table, i+1, s)
+      if (c1 = rc1 && c2 = rc2 && c3 = rc3) then false else loop (c1, c2, c3, AA2, i+1, s)
     end
   )
 in
-  loop (c1, c2, c3, table, 0, size)
+  loop (c1, c2, c3, AA, 0, size)
 end // end of [is_unique_set]
 
-implement add_set (c1, c2, c3, table, i) = let
-	val () = table.results[i][0] := c1
-	val () = table.results[i][1] := c2
-	val () = table.results[i][2] := c3
+implement add_set (c1, c2, c3, AA, i) = let
+  val rr = AA[i]
+  val () = rr[0] := c1
+  val () = rr[1] := c2
+  val () = rr[2] := c3
 in
 end // end of [add_set]
