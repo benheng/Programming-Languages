@@ -9,6 +9,22 @@
 //    Additional commands can be added as necessary.
 //
 
+implement is_unique set (c1, c2, c3, table) = let
+  val size = int_of_size ( array0_size {array0(card_t)} (table.results) )
+  fun loop (c1: card_t, c2: card_t, c3: card_t, A: array0 (array0 (card_t)), i: int, s: int): bool = (
+    if i = size then true
+    else let
+      val rc1 = table.results[i][0]
+      val rc2 = table.results[i][1]
+      val rc3 = table.results[i][2]
+    in
+      if (c1 = rc1 && c2 = rc2 && c3 = rc3) then false else loop (c1, c2, c3, table, i+1, s)
+    end
+  )
+in
+  loop (c1, c2, c3, table, 0, size)
+end // end of [is_unique_set]
+
 implement player_loop (table) = let
   val (c1, c2, c3, opt) = get_user_input ()
 in
