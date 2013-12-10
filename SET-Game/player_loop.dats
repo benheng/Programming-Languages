@@ -22,11 +22,10 @@ in
     val () = player_loop ()
   }
 
-  (*
   else if opt = 100 then let    // 3: input guesses
-      val c1 = // convert (int)c1 into a corresponding card_t
-      val c2 = // convert (int)c2 into a corresponding card_t
-      val c3 = // convert (int)c3 into a corresponding card_t
+      val c1 = table.cards[c1]
+      val c2 = table.cards[c2]
+      val c3 = table.cards[c3]
     in
       if is_set(c1, c2, c3) then (
         if is_unique_set (c1, c2, c3, table) then {
@@ -38,7 +37,6 @@ in
       else println! ("That's not a valid set!")
       player_loop ()
     end
-  *)
 
   else {
     val () = println! ("Invalid Command. Please try again.")
