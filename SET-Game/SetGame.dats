@@ -41,11 +41,11 @@ overload = with is_equal_card
 implement is_unique(c, A) = let
   fun loop(c1: card_t, A: array0 (card_t), i: int): bool = let
   in
-    if i = 12 then false
+    if i = 12 then true
     else let
       val c2 = A[i]
     in
-      if c1 = c2 then true else loop(c1, A, i+1)
+      if c1 = c2 then false else loop(c1, A, i+1)
     end // end of [else]
   end // end of [loop]
 in
