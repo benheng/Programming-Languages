@@ -21,86 +21,47 @@ staload UN = "prelude/SATS/unsafe.sats"
 staload "./SetGame.sats"
 staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/array0.sats"
-staload _ = "libats/ML/DATS/array0.dats"
+staload "libats/ML/DATS/array0.dats"
 staload "libc/SATS/stdlib.sats"
 staload "libc/SATS/unistd.sats"
 
-implement player_loop (table, size_of_res, res_found) = let
-  val A = get_user_input ()
-  val A = $UN.cast{arrayref(int, 4)}(A)
-  val c1_int = A[0]
-  val c2_int = A[1]
-  val c3_int = A[2]
-  val opt = A[3]
+implement is_equal_card(c1, c2) = let
+  val clr = (c1.color = c2.color)
+  val shp = (c1.shape = c2.shape)
+  val shd = (c1.shading = c2.shading)
+  val num = (c1.number = c2.number)
 in
-  if opt = 0 then println! ("Exiting game.")
-  else if opt = 1 then (        // 1: print table
-    print_cards (table.cards)
-    player_loop (table, size_of_res, res_found)
-  )
-  else if opt = 2 then (        // 2: print results
-    print_results(table.results)
-    player_loop (table, size_of_res, res_found)
-  )
-  (*
-  else if opt = 100 then let    // 100: input guesses
-  	  val cards = table.cards
-  	  val results = table.results
-      val c1 = cards[c1_int]
-      val c2 = cards[c2_int]
-      val c3 = cards[c3_int]
-    in
-      if is_set(c1, c2, c3) then (
-        if is_unique_set (c1, c2, c3, results) then (
-          add_set (c1, c2, c3, results, res_found)
-          println! ("Set added! Type 'results' to see Results Table.")
-          if size_of_res = res_found+1 then (
-            print_results (results)
-            println! ("Woop woop you win!")
-          )
-          else player_loop (table, size_of_res, res_found+1)
-        )
-        else (
-          println! ("You've already found that set!")
-          player_loop (table, size_of_res, res_found)
-        )
-      )
-      else (
-        println! ("That's not a valid set!")
-        player_loop (table, size_of_res, res_found)
-      )
-    end
-    *)
-    
-  else (
-    println! ("Invalid Command. Please try again.")
-    player_loop (table, size_of_res, res_found)
-  )
-end // end of [player_loop]
+  if (clr&&shp&&shd&&num) then true else false
+end // end of [is_equal_card]
+overload = with is_equal_card
 
 implement print_cards (A) = let
-  val size = int_of_size ( array0_size {card_t} (A) )
+  val size = A.size
+  val size = $UN.cast2int{size_t}(size)
   fun loop (i: int): void = (
-    if i != size then let
+    if (i = size) then ()
+    else let
         val card = A[i]
+        val () = print_card (card)
       in
-        print_card (card)
         loop (i+1)
       end
-    else ()
   )
 in
   loop(0)
 end // end of [print_cards]
 
 implement print_results (AA) = let
-  val size = int_of_size ( array0_size {array0(card_t)} (AA) )
+  val size = AA.size
+  val size = $UN.cast2int{size_t}(size)
   fun loop (i: int): void = (
-    if i != size then (
-      println! ("=== Set #", i, " ===================================")
-      print_cards (AA[i])
-      loop (i+1)
-    )
+    if i != size then let
+        val () = println! ("=== Set #", i, " ===================================")
+        val cards = AA[i]
+        val () = print_cards (cards)
+      in
+        loop (i+1)
+      end
     else ()
   )
 in
@@ -108,12 +69,12 @@ in
 end // end of [print_results]
 
 implement is_unique_set (c1, c2, c3, AA) = let
-  val size = int_of_size ( array0_size {array0(card_t)} (AA) )
+  val size = AA.size
+  val size = $UN.cast2int{size_t}(size)
   fun loop (c1: card_t, c2: card_t, c3: card_t, AA2: array0 (array0 (card_t)), i: int, s: int): bool = (
     if i = size then true
     else let
-      val results = table.results
-      val rr = results[i]
+      val rr = AA[i]
       val rc1 = rr[0]
       val rc2 = rr[1]
       val rc3 = rr[2]
@@ -132,3 +93,62 @@ implement add_set (c1, c2, c3, AA, i) = let
   val () = rr[2] := c3
 in
 end // end of [add_set]
+
+implement player_loop (table, size_of_res, res_found) = let
+  val A = get_user_input ()
+  val A = $UN.cast{arrayref(int, 4)}(A)
+  val c1_int = A[0]
+  val c2_int = A[1]
+  val c3_int = A[2]
+  val opt = A[3]
+  val cards = table.cards
+  val results = table.results
+in
+  if opt = 0 then println! ("Exiting game.")
+  else if opt = 1 then let        // 1: print table
+      val () = print_cards (cards)
+    in
+      player_loop (table, size_of_res, res_found)
+    end
+  else if opt = 2 then let        // 2: print results
+      val () = print_results(results)
+    in
+      player_loop (table, size_of_res, res_found)
+    end
+  else if opt = 100 then let    // 100: input guesses
+      val c1 = cards[c1_int]
+      val c2 = cards[c2_int]
+      val c3 = cards[c3_int]
+      val set = is_set(c1, c2, c3)
+    in
+      if (set = 1) then (
+        if is_unique_set (c1, c2, c3, results) then let
+            val () = add_set (c1, c2, c3, results, res_found)
+            val () = println! ("Set added! Type 'results' to see Results Table.")
+          in
+	        if (size_of_res = res_found+1) then let
+	            val () = print_results (results)
+	            val () = println! ("Woop woop you win!")
+	          in
+	          end
+	        else player_loop (table, size_of_res, res_found+1)
+          end
+        else let
+            val () = println! ("You've already found that set!")
+            val () = player_loop (table, size_of_res, res_found)
+          in
+          end
+      )
+      else let
+          val () = println! ("That's not a valid set!")
+        in
+          player_loop (table, size_of_res, res_found)
+        end
+    end
+    
+  else let
+      val () = println! ("Invalid Command. Please try again.")
+    in
+      player_loop (table, size_of_res, res_found)
+    end
+end // end of [player_loop]
