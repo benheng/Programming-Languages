@@ -26,7 +26,7 @@ int* get_user_input () {
 		}
 		
 		// reset array
-		cards[0] = 0; cards[1] = 0; cards[2] = 0, cards[3] = 3;
+		cards[0] = 0; cards[1] = 0; cards[2] = 0; cards[3] = 3;
 		char *token = {0};
 		int i = 0;
 		
