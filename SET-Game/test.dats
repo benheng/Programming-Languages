@@ -58,10 +58,12 @@ end // end of [print_commands]
 implement main0() = let
   val () = print_welcome()
   val () = print_commands()
+  val () = println!("Please Wait...")
   //
   val t = generate_table()
-  val () = println!("The Table:\n")
+  val () = println!("\nThe Table:\n")
   val () = print_cards(t.cards)
+  val () = println!("\nEnter Command:\n")
   //
   val A = t.results
   val size = A.size
