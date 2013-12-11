@@ -77,7 +77,7 @@ fun generate_card(ind: int): card_t
 fun add_card(A: array0 (card_t), i: int): void
 
 // Checks to see how many sets exist.
-fun check_sets(cards: array0(card_t)): int
+fun check_sets(cards: array0(card_t), int): int
 
 // Generates the table of cards.
 fun generate_table((*void*)): table_t
@@ -92,7 +92,7 @@ fun generate_table((*void*)): table_t
 fun player_loop (table_t, int, int): void
 
 // Print playing cards
-fun print_cards (array0(card_t)): void
+fun print_cards (array0(card_t), int): void
 
 // Print results table
 fun print_results (array0(array0(card_t))): void
