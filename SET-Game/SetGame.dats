@@ -75,9 +75,9 @@ end // end of [is_set]
 implement get_color(c) = let
   val color = c.color
 in
-  if color = 1 then "Red"
+  if color = 1 then "Red  "
   else if color = 2 then "Green"
-  else if color = 3 then "Blue"
+  else if color = 3 then "Blue "
   else let
     val () = println!("Invalid Color")
   in
@@ -88,9 +88,9 @@ end // end of [get_color]
 implement get_shape(c) = let
   val shape = c.shape
 in
-  if shape = 1 then "Square"
+  if shape = 1 then "Square  "
   else if shape = 2 then "Triangle"
-  else if shape = 3 then "Circle"
+  else if shape = 3 then "Circle  "
   else let
     val () = println!("Invalid Shape")
   in
@@ -101,9 +101,9 @@ end // end of [get_shape]
 implement get_shade(c) = let
   val shade = c.shading
 in
-  if shade = 1 then "Solid"
+  if shade = 1 then "Solid  "
   else if shade = 2 then "Striped"
-  else if shade = 3 then "Empty"
+  else if shade = 3 then "Empty  "
   else let
     val () = println!("Invalid Shading")
   in
@@ -114,9 +114,13 @@ end // end of [get_shade]
 implement print_card(c) = let
   val ind = c.ind
   val num = c.number
-  val () = println!(ind,": ",get_color(c)," | ",get_shape(c)," | ",get_shade(c)," | ",num)
+  
 in
-  (*nothing*)
+  if ind < 13 then let
+    val () = println!("\t", ind,":\t",get_color(c)," | ",get_shape(c)," | ",get_shade(c)," | ",num)
+  in
+    (*nothing*)
+  end // end of [if]
 end // end of [print_card]
 
 (* ****** ****** *)
@@ -186,8 +190,22 @@ end // end of [check_sets]
 // Generates a table that contains 12 random cards.
 implement generate_table() = let
   
+  // Generates the results array
+  fun loop2(i:int, size: int,A:array0(array0(card_t)), card:card_t): void = let
+    val asz = size_of_int(3)
+    val new_array = array0_make_elt(asz, card)
+  in
+    if i < size then let
+      val () = A[i] := new_array
+    in
+      loop2(i+1, size, A, card)
+    end // end of [if]
+    else ()
+  end // end of [loop2]
+  
   // Generates an array of 12 cards.
   fun loop(i: int, A: array0 (card_t)): void = let
+  
     //val () = println! (i)
   in
     if i = 0 then ()
@@ -214,6 +232,7 @@ in
     val asz2_b = size_of_int(3)
     val init2 = array0_make_elt(asz2_b, init)
     val results = array0_make_elt(asz2_a, init2)
+    val () = loop2(0, num_sets, results, init)
     //
     val t = @{ cards=cards, results=results} : table_t
   in
@@ -224,3 +243,4 @@ end // end of [generate_table]
 (* ****** ****** *)
 
 (* end of [SetGame.dats] *)
+
