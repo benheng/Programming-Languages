@@ -19,21 +19,12 @@ extern fun get_user_input(): ptr = "mac#"
 
 staload UN = "prelude/SATS/unsafe.sats"
 staload "./SetGame.sats"
+staload "./SetGame.dats"
 staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/array0.sats"
 staload "libats/ML/DATS/array0.dats"
 staload "libc/SATS/stdlib.sats"
 staload "libc/SATS/unistd.sats"
-
-implement is_equal_card(c1, c2) = let
-  val clr = (c1.color = c2.color)
-  val shp = (c1.shape = c2.shape)
-  val shd = (c1.shading = c2.shading)
-  val num = (c1.number = c2.number)
-in
-  if (clr&&shp&&shd&&num) then true else false
-end // end of [is_equal_card]
-overload = with is_equal_card
 
 implement print_cards (A) = let
   val size = A.size
