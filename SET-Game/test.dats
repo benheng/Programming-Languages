@@ -27,6 +27,8 @@ staload _ = "libats/ML/DATS/array0.dats"
 staload "libc/SATS/stdlib.sats"
 staload "libc/SATS/unistd.sats"
 staload UN = "prelude/SATS/unsafe.sats"
+staload TIME = "libc/SATS/time.sats"
+staload STDLIB = "libc/SATS/stdlib.sats"
 
 
 (* ****** ****** *)
@@ -56,6 +58,7 @@ in
 end // end of [print_commands]
 
 implement main0() = let
+  val () = $STDLIB.srand ($UN.cast{uint}($TIME.time_get()))
   val () = print_welcome()
   val () = print_commands()
   val () = println!("Please Wait...")
