@@ -21,6 +21,16 @@ dynload "./player_loop.dats"
 
 (* ****** ****** *)
 
+staload "libats/ML/SATS/basis.sats"
+staload "libats/ML/SATS/array0.sats"
+staload _ = "libats/ML/DATS/array0.dats"
+staload "libc/SATS/stdlib.sats"
+staload "libc/SATS/unistd.sats"
+staload UN = "prelude/SATS/unsafe.sats"
+
+
+(* ****** ****** *)
+
 implement main0() = let
   val t = generate_table()
   val A = t.results
