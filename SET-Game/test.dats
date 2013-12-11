@@ -52,7 +52,8 @@ fun print_commands():void = let
   val () = println! ("\tcards   - Prints the cards in play.")
   val () = println! ("\tresults - Prints the sets that have\n\t          been found.")
   val () = println! ("\texit    - Exit the game.")
-  val () = println! ("\tquit    - Quit the game.\n")
+  val () = println! ("\tquit    - Quit the game.")
+  val () = println! ("\tsolution- I give up...\n")
 in
   (*void*)
 end // end of [print_commands]
@@ -63,8 +64,7 @@ implement main0() = let
   val () = print_commands()
   //
   val t = generate_table()
-  val () = println!("\nThe Table:\n")
-  val () = print_cards(t.cards)
+  val () = print_cards(t.cards, 1)
   
   //
   val A = t.results
