@@ -25,6 +25,8 @@ staload "libats/ML/SATS/array0.sats"
 staload _ = "libats/ML/DATS/array0.dats"
 staload "libc/SATS/stdlib.sats"
 staload "libc/SATS/unistd.sats"
+staload TIME = "libc/SATS/time.sats"
+staload STDLIB = "libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
 // Some essential functions.
@@ -124,6 +126,7 @@ end // end of [print_card]
 // Return the value to represent a characteristic
 // of a card.
 implement get_value() = let
+  val () = $STDLIB.srand ($UN.cast{uint}($TIME.time_get()))
   val res = rand() mod 3 + 1
   //val () = println!(res)
 in
