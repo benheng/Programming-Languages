@@ -22,7 +22,7 @@ The Rules are as follows:
     A Set is defined as a group of 3 cards where each of the four 
     characteristics follow one of the following properties
 	      i) The characteristic on each card is the same
-       ii) The characteristic on each card is unique
+       	     ii) The characteristic on each card is unique
 
     If all characteristics fit these properties, then the cards
     for a set.
@@ -45,9 +45,9 @@ Commands:
 	      	    are a set.  If so, then they add that set to the results
 		          that have been found. Otherwise, it will tell you the set 
 		          is invalid.
-      cards : Prints out all the cards that have been dealt out on the
+      	    cards : Prints out all the cards that have been dealt out on the
 	            table. Prints out in the following format:
-		  Index: Color | Shape | Shade | Number
+	    		Index: Color | Shape | Shade | Number
 
 	    	       e.g. '1: Blue | Circle | Empty | 3'
 		       	        '2: Red  | Circle | Solid | 2'
