@@ -26,7 +26,7 @@ staload "libats/ML/DATS/array0.dats"
 staload "libc/SATS/stdlib.sats"
 staload "libc/SATS/unistd.sats"
 
-implement print_cards (A) = let
+implement print_cards (A, opt) = let
   val size = A.size
   val size = $UN.cast2int{size_t}(size)
   fun loop (i: int): void = (
@@ -39,7 +39,10 @@ implement print_cards (A) = let
       end
   )
 in
-  loop(0)
+  if opt = 1 then let
+    val () = println! ("\t=============== TABLE ================")
+    in loop (0) end
+  else loop (0)
 end // end of [print_cards]
 
 implement print_results (AA) = let
@@ -47,9 +50,9 @@ implement print_results (AA) = let
   val size = $UN.cast2int{size_t}(size)
   fun loop (i: int): void = (
     if i != size then let
-        val () = println! ("\t============== Set #", i+1, " ================")
+        val () = println! ("\t=============== SET ", i+1, " ================")
         val cards = AA[i]
-        val () = print_cards (cards)
+        val () = print_cards (cards, 0)
       in
         loop (i+1)
       end
@@ -66,7 +69,6 @@ implement is_unique_set (c1, c2, c3, AA) = let
     if i = size then true
     else let
       val rr = AA[i]
-      val () = print_cards(rr)
       val rc1 = rr[0]
       val rc2 = rr[1]
       val rc3 = rr[2]
@@ -96,14 +98,19 @@ implement player_loop (table, size_of_res, res_found) = let
   val cards = table.cards
   val results = table.results
 in
-  if opt = 0 then println! ("Exiting game.")
+  if opt = 0 then println! ("Exiting game.") // 0: exit game
   else if opt = 1 then let        // 1: print table
-      val () = print_cards (cards)
+      val () = print_cards (cards, 1)
     in
       player_loop (table, size_of_res, res_found)
     end
   else if opt = 2 then let        // 2: print results
       val () = print_results(results)
+    in
+      player_loop (table, size_of_res, res_found)
+    end
+  else if opt = 3 then let      // 3: print solution
+  	  val _ = check_sets(table.cards, 1)
     in
       player_loop (table, size_of_res, res_found)
     end
