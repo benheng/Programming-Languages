@@ -4,7 +4,7 @@
 // Final Project
 //
 // Erik Geil
-// Ben
+// Ben Heng
 //
 *)
 
