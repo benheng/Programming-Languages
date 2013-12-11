@@ -52,15 +52,15 @@ int* get_user_input () {
 			for (;*token;++token) *token = tolower(*token);
 
 			// OPTIONS //////////////////////////////////////////////////////////
-			if (strcmp(token, "exit") || strcmp(token, "quit")) {
+			if (strcmp(token, "exit") == 0 || strcmp(token, "quit") == 0) {
 				cards[3] = 0;
 				return cards;
 			}
-			else if (strcmp(token, "cards")) {
+			else if (strcmp(token, "cards") == 0) {
 				cards[3] = 1;
 				return cards;
 			}
-			else if (strcmp(token, "results")) {
+			else if (strcmp(token, "results") == 0) {
 				cards[3] = 2;
 				return cards;
 			}
