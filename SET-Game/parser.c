@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 #define MAX_CARDS 12        // limits the range of inputs
-#define MAX_IN 9            // max input "xx xx xx\0" = 8 chars
+#define MAX_IN 16            // max input "xx xx xx\0" = 8 chars
 #define DELIMS " \t\r\n"
 
 int cards[4];
@@ -44,7 +44,7 @@ int* get_user_input () {
         int i = 0;
             
         // parse input into seperate tokens and store them into an array
-        if (input != NULL && (input[0] != '\n')) {
+        if (input != NULL && (input[0] != ' ') && (input[0] != '\n') && (input[0] != '\t')) {
             token = strtok (input, DELIMS);                // retrieve first token
 
             // OPTIONS //////////////////////////////////////////////////////////
@@ -59,6 +59,10 @@ int* get_user_input () {
             else if (strcmp(token, "results") == 0) {
                 cards[3] = 2;
                 return cards;
+            }
+            else if (strcmp(token, "solution") == 0) {
+            	cards[3] = 3;
+            	return cards;
             }
             else {
                 ////////////////////////////////////////////////////////////////////
