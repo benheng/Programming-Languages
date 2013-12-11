@@ -19,6 +19,7 @@ staload "./SetGame.sats"
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
 staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/array0.sats"
 staload _ = "libats/ML/DATS/array0.dats"
@@ -41,11 +42,11 @@ overload = with is_equal_card
 implement is_unique(c, A) = let
   fun loop(c1: card_t, A: array0 (card_t), i: int): bool = let
   in
-    if i = 12 then true
+    if i = 12 then false
     else let
       val c2 = A[i]
     in
-      if c1 = c2 then false else loop(c1, A, i+1)
+      if c1 = c2 then true else loop(c1, A, i+1)
     end // end of [else]
   end // end of [loop]
 in
@@ -199,16 +200,15 @@ implement generate_table() = let
   val init = generate_card(13)
   val cards = array0_make_elt(asz, init)
   val () = loop(12, cards)
-  val () = println! ("Passed Step 1")
   val num_sets = check_sets(cards)
-  val () = println!(num_sets)
+  //val () = println!(num_sets)
  
 in
   // if there are no sets, then regenerate the cards.
   if num_sets = 0 then generate_table()
   else let
     //
-    val asz2_a = size_of_int(12)
+    val asz2_a = $UN.cast2size{int}(num_sets)
     val asz2_b = size_of_int(3)
     val init2 = array0_make_elt(asz2_b, init)
     val results = array0_make_elt(asz2_a, init2)
