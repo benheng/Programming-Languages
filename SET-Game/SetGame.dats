@@ -1,3 +1,4 @@
+//
 (* ****** THE SET GAME ****** *)
 (*
 // CS 520
@@ -162,12 +163,26 @@ in
 end // end of [add_card]
 
 // Returns the number of set in an array of cards.
-implement check_sets(cards) = let
+implement check_sets(cards, opt) = let
   
   fun aux3(i:int, j:int, k:int):<cloref1> int = let
+    
   in
     if k = 12 then 0
-    else is_set(cards[i], cards[j], cards[k]) + aux3(i, j, k+1)
+    else let
+    	val set = is_set(cards[i], cards[j], cards[k])
+    in
+    if opt = 0 then set + aux3(i, j, k+1)
+    else if set = 1 then let
+    	val () = println!("\t================ SET =================")
+        val () = print_card(cards[i])
+        val () = print_card(cards[j])
+        val () = print_card(cards[k])
+      in
+        aux3(i, j, k+1)
+      end
+    else aux3(i, j, k+1)
+  	end // end of [else]
   end // end of [aux3] 
   
   
@@ -220,7 +235,7 @@ implement generate_table() = let
   val init = generate_card(13)
   val cards = array0_make_elt(asz, init)
   val () = loop(12, cards)
-  val num_sets = check_sets(cards)
+  val num_sets = check_sets(cards, 0)
   //val () = println!(num_sets)
  
 in
@@ -243,4 +258,3 @@ end // end of [generate_table]
 (* ****** ****** *)
 
 (* end of [SetGame.dats] *)
-
