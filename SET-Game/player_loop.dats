@@ -47,7 +47,7 @@ implement print_results (AA) = let
   val size = $UN.cast2int{size_t}(size)
   fun loop (i: int): void = (
     if i != size then let
-        val () = println! ("=== Set #", i, " ===================================")
+        val () = println! ("\t============== Set #", i+1, " ================")
         val cards = AA[i]
         val () = print_cards (cards)
       in
@@ -66,6 +66,7 @@ implement is_unique_set (c1, c2, c3, AA) = let
     if i = size then true
     else let
       val rr = AA[i]
+      val () = print_cards(rr)
       val rc1 = rr[0]
       val rc2 = rr[1]
       val rc3 = rr[2]
