@@ -38,9 +38,9 @@ fun print_welcome():void = let
   val () = println! ("################# THE SET GAME ################")
   val () = println! ("###############################################")
   val () = println! ("            Welcome to the Set Game !!!      \n")
-  val () = println! ("The Game:\n Find all groups of 3 cards that form a set!")
-  val () = println! ("A set is 3 cards whose characteristics are\neither all the same or all different.")
-  val () = println! ("Try to find them all!!!\n")
+  val () = println! ("The Game:\n\tFind all groups of 3 cards that form a set!")
+  val () = println! ("\tA set is 3 cards whose characteristics are\n\teither all the same or all different.")
+  val () = println! ("\tTry to find them all!!!\n")
 
 in
   (*void*)
@@ -61,16 +61,17 @@ implement main0() = let
   val () = $STDLIB.srand ($UN.cast{uint}($TIME.time_get()))
   val () = print_welcome()
   val () = print_commands()
-  val () = println!("Please Wait...")
   //
   val t = generate_table()
   val () = println!("\nThe Table:\n")
   val () = print_cards(t.cards)
-  val () = println!("\nEnter Command:\n")
+  
   //
   val A = t.results
   val size = A.size
   val size = $UN.cast2int{size_t}(size)
+  val () = println!("\nThere are ", size, " sets. Good luck !!!")
+  val () = println!("\nEnter Command:")
   val () = player_loop(t, size, 0)
 in
   (*void*)
@@ -78,4 +79,4 @@ end // end of [main0]
 
 (* ****** ****** *)
 
-(* end of [main.dats] *)
+(* end of [main.dats] *
